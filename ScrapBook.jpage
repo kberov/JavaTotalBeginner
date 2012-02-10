@@ -1,0 +1,2 @@
+Person p = new Person();p.toString()
+Book b = new Book("Под Игото");b.setAuthor("Иван Вазов");b
