@@ -1,2 +1,8 @@
-Person p = new Person();p.toString()
-Book b = new Book("Под Игото");b.setAuthor("Иван Вазов");b
+ArrayList <Book> list = new ArrayList<Book>();
+Book b1 = new Book("Great Expectations");
+Book b2 = new Book("War and Peace");
+list.add(b1);
+list.add(b2);
+list.get(0).setPerson(new Person());
+list.get(0).getPerson().setName("Fred");
+list.remove(b1);list
