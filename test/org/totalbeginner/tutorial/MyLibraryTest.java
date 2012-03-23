@@ -5,11 +5,8 @@ import org.junit.Test;
 import org.junit.Before;
 import java.util.ArrayList;
 
-
 public class MyLibraryTest {
-	
-	
-	
+
 	private Book b1;
 	private Book b2;
 	private Person p1;
@@ -17,8 +14,8 @@ public class MyLibraryTest {
 	private MyLibrary ml;
 
 	@Before
-	public void setup(){
-		b1 = new Book("War and Peace"); 
+	public void setup() {// not special in JUnit 4. @Before makes it special
+		b1 = new Book("War and Peace");
 		b2 = new Book("Под Игото");
 		p1 = new Person();
 		p2 = new Person();
@@ -27,7 +24,7 @@ public class MyLibraryTest {
 		ml = new MyLibrary("Test");
 	}
 
-	//test constructor
+	// test constructor
 	@Test
 	public void testMyLibrary() {
 		assertEquals("Test", ml.name);
@@ -36,26 +33,26 @@ public class MyLibraryTest {
 	}
 
 	@Test
-	public void testGetName(){
+	public void testGetName() {
 		assertEquals("Test", ml.getName());
-		
+
 	}
+
 	@Test
-	public void testAddBook(){
+	public void testAddBook() {
 		assertEquals(0, ml.getBooks().size());
 		ml.addBook(b1);
-		ml.addBook(1,b2);
+		ml.addBook(1, b2);
 		assertEquals(2, ml.getBooks().size());
 		assertEquals(0, ml.getBooks().indexOf(b1));
 		assertEquals(1, ml.getBooks().indexOf(b2));
-		
+
 		ml.removeBook(b1);
 		assertEquals(1, ml.getBooks().size());
 		assertEquals(0, ml.getBooks().indexOf(b2));
-		
-		assertTrue(ml.removeBook(b2));
-		assertEquals(0, ml.getBooks().size());		
 
+		assertTrue(ml.removeBook(b2));
+		assertEquals(0, ml.getBooks().size());
 	}
 
 	@Test
@@ -65,9 +62,24 @@ public class MyLibraryTest {
 		assertEquals(2, ml.getPeople().size());
 		assertEquals(0, ml.getPeople().indexOf(p1));
 		assertEquals(1, ml.getPeople().indexOf(p2));
-		
+
 		ml.removePerson(p1);
 		assertEquals(1, ml.getPeople().size());
 		assertEquals(0, ml.getPeople().indexOf(p2));
+	}
+
+	@Test
+	public void testCheckOut() {
+		ml.addBook(b1);
+		ml.addBook(b2);
+		ml.addPerson(p1);
+		ml.addPerson(p2);
+		assertTrue("Book did not chekout correctly.", ml.checkOut(b1, p1));
+		assertEquals("Fred", b1.getPerson().getName());
+		assertFalse("Book was already checked out.", ml.checkOut(b1, p2));
+
+		assertTrue("Book chek in failed", ml.checkIn(b1));
+		assertFalse("Book was already checked in.", ml.checkIn(b1));
+		assertFalse("Book was never checked out.", ml.checkIn(b2));
 	}
 }
