@@ -68,4 +68,9 @@ public class MyLibrary {
 		return false;
 	}
 
+	public ArrayList<Book> getBooksForPerson(Person p) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

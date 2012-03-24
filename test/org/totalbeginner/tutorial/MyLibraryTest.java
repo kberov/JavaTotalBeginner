@@ -70,10 +70,7 @@ public class MyLibraryTest {
 
 	@Test
 	public void testCheckOut() {
-		ml.addBook(b1);
-		ml.addBook(b2);
-		ml.addPerson(p1);
-		ml.addPerson(p2);
+		addItems();
 		assertTrue("Book did not chekout correctly.", ml.checkOut(b1, p1));
 		assertEquals("Fred", b1.getPerson().getName());
 		assertFalse("Book was already checked out.", ml.checkOut(b1, p2));
@@ -81,5 +78,33 @@ public class MyLibraryTest {
 		assertTrue("Book chek in failed", ml.checkIn(b1));
 		assertFalse("Book was already checked in.", ml.checkIn(b1));
 		assertFalse("Book was never checked out.", ml.checkIn(b2));
+		
+		// additional test for maximumBooks
+		p1.setMaximumBooks(1);
+		addItems();
+		assertTrue("First book did not check out", ml.checkOut(b2, p2));
+		assertFalse("Second book should not have checked out.", 
+				ml.checkOut(b1, p1));
+	}
+
+	public void addItems() {
+		ml.addBook(b1);
+		ml.addBook(b2);
+		ml.addPerson(p1);
+		ml.addPerson(p2);
+	}
+	
+	@Test
+	public void testGetBooksForPerson() {
+		addItems();
+		assertEquals(0, ml.getBooksForPerson(p1).size());
+		ArrayList<Book> testBooks = ml.getBooksForPerson(p1);
+		assertEquals(1, testBooks.size());
+		assertEquals(0, testBooks.indexOf(b1));
+		
+		ml.checkOut(b2,p1);
+		testBooks = ml.getBooksForPerson(p1);
+		assertEquals(2, testBooks.size());
+		assertEquals(1, testBooks.indexOf(b2));
 	}
 }
